@@ -1,5 +1,3 @@
-require "thor/error"
-
 class Calculator
   PRODUCTS = {
     "GR1" => 3.11,
@@ -8,12 +6,11 @@ class Calculator
   }
 
   def initialize(products)
-    @products = products.split(/,\s?/).group_by(&:itself).transform_values(&:size)
-    validate_products
+    @products = products
   end
 
   def calculate_total_price
-    return 0 if products.empty?
+    return 0 if products.nil?
 
     products.sum do |code, quantity|
       PRODUCTS[code] * quantity
@@ -23,11 +20,4 @@ class Calculator
   private
 
   attr_reader :products
-
-  def validate_products
-    invalid_products = products.keys - PRODUCTS.keys
-    unless invalid_products.empty?
-      raise Thor::Error, "Cart include invalid products: #{invalid_products.join(", ")}"
-    end
-  end
 end

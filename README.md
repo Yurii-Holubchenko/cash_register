@@ -13,12 +13,12 @@ Next gems should be installed to make it work:
 
 From terminal go to the project folder and run:
 ```
-ruby cashier.rb calculate_total "LIST_OF_PRODUCTS"
+ruby cashier_app.rb calculate_total "LIST_OF_PRODUCTS"
 ```
 
 For example:
 ```
-ruby cashier.rb calculate_total "GR1,SR1,CF1"
+ruby cashier_app.rb calculate_total "GR1,SR1,CF1"
 ```
 
 Remember - It is important to put the list of products in quotes.
