@@ -1,23 +1,30 @@
+require "./app/products"
+require "./app/discount"
+Dir.glob(File.join(Dir.pwd, 'app', "discounts", '*.rb'), &method(:require))
+
 class Calculator
-  PRODUCTS = {
-    "GR1" => 3.11,
-    "SR1" => 5.00,
-    "CF1" => 11.23
-  }
+  attr_reader :products
+  private :products
 
   def initialize(products)
     @products = products
   end
 
   def calculate_total_price
-    return 0 if products.nil?
+    return 0.00 if products.nil?
 
-    products.sum do |code, quantity|
-      PRODUCTS[code] * quantity
-    end
+    products.sum { |code, quantity| price_with_discount(code, quantity) }.round(2)
   end
 
   private
 
-  attr_reader :products
+  def price_with_discount(code, quantity)
+    discount_klass = begin
+      Object.const_get("Discounts::#{code}")
+    rescue
+      Discount
+    end
+
+    discount_klass.price_with_discount(code, quantity)
+  end
 end

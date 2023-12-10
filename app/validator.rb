@@ -1,8 +1,9 @@
 require "thor/error"
-require "./app/calculator"
+require "./app/products"
 
 class Validator
   attr_reader :products, :errors
+  private :products
 
   def initialize(products)
     @products = products
@@ -18,7 +19,7 @@ class Validator
   private
 
   def validate_products
-    invalid_products = products.keys - Calculator::PRODUCTS.keys
+    invalid_products = products.keys - PRODUCTS.keys
     unless invalid_products.empty?
       @errors << "Cart include invalid products: #{invalid_products.join(", ")}"
     end
