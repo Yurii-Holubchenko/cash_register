@@ -3,13 +3,7 @@ require "./app/validator"
 describe Validator do
   subject(:validator) { described_class.new(products) }
 
-  let(:products) do
-    {
-      "GR1" => 1,
-      "SR1" => 1,
-      "CF1" => 1
-    }
-  end
+  let(:products) { {"GR1" => 1, "SR1" => 1, "CF1" => 1} }
 
   context "#valid?" do
     subject(:valid?) { validator.valid? }
