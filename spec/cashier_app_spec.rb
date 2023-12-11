@@ -4,11 +4,15 @@ describe CashierApp do
   subject(:cashier_app) { described_class.new }
 
   context "#calculate_total" do
-    subject(:calculate_total) { cashier_app.invoke(:calculate_total, [products_list]) }
+    subject(:calculate_total) { cashier_app.invoke(:calculate_total) }
 
     let(:products_list) { "GR1,SR1,CF1" }
 
-    context "without list of products" do
+    before do
+      allow_any_instance_of(PStore).to receive(:transaction).with(any_args).and_return([products_list])
+    end
+
+    context "without products in the cart" do
       let(:products_list) { "" }
 
       it do
@@ -18,7 +22,7 @@ describe CashierApp do
       end
     end
 
-    context "with list of products" do
+    context "with products in the cart" do
       it do
         expect {
           calculate_total
@@ -26,7 +30,7 @@ describe CashierApp do
       end
     end
 
-    context "with incorrect products in the list" do
+    context "with incorrect products in the cart" do
       let(:products_list) { "GS1" }
       let(:error_messages) { ["Cart include invalid products: #{products_list}"].join("\n") }
 
